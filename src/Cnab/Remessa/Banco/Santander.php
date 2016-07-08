@@ -145,7 +145,7 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(80, 94, Util::formatCnab('X', 'SANTANDER', 15));
         $this->add(95, 100, date('dmy'));
         $this->add(101, 116, Util::formatCnab('9','0',16));
-        $this->add(117, 391, '');
+        $this->add(117, 391, ' ');
         $this->add(392, 394, '000');
         $this->add(395, 400, Util::formatCnab('9', 1, 6));
 
@@ -162,15 +162,15 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(2, 3, strlen(Util::onlyNumbers($this->getBeneficiario()->getDocumento())) == 14 ? '02' : '01');
         $this->add(4, 17, Util::formatCnab('9L', $this->getBeneficiario()->getDocumento(), 14));
         $this->add(18, 37, Util::formatCnab('9', $this->getCodigoTransmissao(), 20));
-        $this->add(38, 62, Util::formatCnab('X', '', 25)); // numero de controle
+        $this->add(38, 62, Util::formatCnab('X', $boleto->getNumero(), 25)); // numero de controle
         $this->add(63, 70, Util::numberFormatGeral($boleto->getNumeroDocumento(), 7) . Util::modulo11($boleto->getNumeroDocumento()));
         $this->add(71, 76, '000000');
-        $this->add(77, 77, '');
+        $this->add(77, 77, ' ');
         $this->add(78, 78, ($boleto->getMulta() !== false ? '4' : '0'));
         $this->add(79, 82, Util::formatCnab('9', $boleto->getMulta(), 4, 2));
         $this->add(83, 84, '00');
         $this->add(85, 97, Util::formatCnab('9', 0, 13, 2));
-        $this->add(98, 101, Util::formatCnab('X', '', 4));
+        $this->add(98, 101, Util::formatCnab('X', ' ', 4));
         $this->add(102, 107, $boleto->getDataVencimento()->copy()->addDays($boleto->getJurosApos(0))->format('dmy'));
         $this->add(108, 108, $this->getCarteiraNumero() > 200 ? '1' : '5');
         $this->add(109, 110, '01'); // REGISTRO
@@ -217,13 +217,13 @@ class Santander extends AbstractRemessa implements RemessaContract
         $this->add(327, 334, Util::formatCnab('9L', $boleto->getPagador()->getCep(), 8));
         $this->add(335, 349, Util::formatCnab('X', $boleto->getPagador()->getCidade(), 15));
         $this->add(350, 351, Util::formatCnab('X', $boleto->getPagador()->getUf(), 2));
-        $this->add(352, 381, Util::formatCnab('X', $boleto->getSacadorAvalista() ? $boleto->getSacadorAvalista()->getNome() : '', 30));
-        $this->add(382, 382, '');
+        $this->add(352, 381, Util::formatCnab('X', $boleto->getSacadorAvalista() ? $boleto->getSacadorAvalista()->getNome() : ' ', 30));
+        $this->add(382, 382, ' ');
         $this->add(383, 383, 'I');
         $this->add(384, 385, substr($this->getConta(),-2));
-        $this->add(386, 391, Util::formatCnab('N', '', 6));
+        $this->add(386, 391, Util::formatCnab('N', ' ', 6));
         $this->add(392, 393, Util::formatCnab('9', $boleto->getDiasProtesto('0'), 2));
-        $this->add(394, 394, '');
+        $this->add(394, 394, ' ');
         $this->add(395, 400, Util::formatCnab('N', $this->iRegistros+1, 6));
 
         return $this;
