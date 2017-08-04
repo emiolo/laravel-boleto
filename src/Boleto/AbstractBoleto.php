@@ -148,6 +148,11 @@ abstract class AbstractBoleto implements BoletoContract
      */
     protected $usoBanco;
     /**
+     * Código do cliente
+     * @var string|int
+     */
+    protected $codigoCliente;
+    /**
      * Agência
      * @var int
      */
@@ -280,6 +285,26 @@ abstract class AbstractBoleto implements BoletoContract
         if (!$this->getDataVencimento()) {
             $this->setDataVencimento(new Carbon(date('Y-m-d', strtotime('+5 days'))));
         }
+    }
+    /**
+     * Define o código do cliente
+     *
+     * @param string|int $codigoCliente
+     * @return AbstractBoleto
+     */
+    public function setCodigoCliente($codigoCliente)
+    {
+        $this->codigoCliente = $codigoCliente;
+        return $this;
+    }
+    /**
+     * Retorna o código do cliente
+     *
+     * @return string|int
+     */
+    public function getCodigoCliente()
+    {
+        return $this->codigoCliente;
     }
     /**
      * Define a agência
