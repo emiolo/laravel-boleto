@@ -148,4 +148,16 @@ class Santander  extends AbstractBoleto implements BoletoContract
         Util::numberFormatGeral($this->getIos(), 1) .
         Util::numberFormatGeral($this->getCarteira(), 3);
     }
+
+    /**
+     * Retorna o codigo de transmissão.
+     *
+     * @return mixed
+     */
+    public function getCodigoTransmissao()
+    {
+        return Util::formatCnab('9', $this->agencia, 4)
+        . Util::formatCnab('9', $this->codigoCliente, 8)
+        . Util::formatCnab('9', $this->conta, 8);
+    }
 }
